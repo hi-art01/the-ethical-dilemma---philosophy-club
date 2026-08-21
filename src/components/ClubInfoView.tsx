@@ -68,6 +68,13 @@ END:VCALENDAR`;
 
       <div className="w-16 h-px bg-[#74777d] mb-8 md:mb-10 mx-auto md:mx-0"></div>
 
+      <div className="paper-card p-5 md:p-6 mb-8 rounded-[4px]">
+        <p className="eyebrow mb-2">About our outreach</p>
+        <p className="text-sm md:text-base text-[#44474c] leading-relaxed">
+          In addition to our regular meetings, we occasionally teach younger students about philosophy through friendly discussions, stories, and big questions.
+        </p>
+      </div>
+
       {/* Bento Grid Layout matching Image 7 */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
         {/* Meeting Details (col-span-8) */}
