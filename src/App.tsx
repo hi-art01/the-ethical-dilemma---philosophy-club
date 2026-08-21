@@ -131,7 +131,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fdf9f0] text-[#1c1c16] selection:bg-[#041627] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#f6f1e8] text-[#1c1c16] selection:bg-[#173b4d] selection:text-white">
       {/* Navigation Header */}
       <Navbar
         currentView={currentView}

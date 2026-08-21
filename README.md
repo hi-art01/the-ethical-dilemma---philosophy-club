@@ -1,20 +1,16 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# The Ethical Dilemma
 
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/9702f1c3-b014-44b8-8779-2c3a970dc878
+The student philosophy club site for weekly quotations, discussion topics, and club details.
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Install dependencies: `npm install`
+2. Start the dev server: `npm run dev`
+3. Create a production build: `npm run build`
+
+## GitHub Pages
+
+Push to `main` and the workflow in `.github/workflows/deploy.yml` builds and deploys the site automatically. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**.

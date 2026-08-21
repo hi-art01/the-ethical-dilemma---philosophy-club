@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // GitHub Pages serves project sites from /<repository>/ rather than /.
+    // A relative base keeps the generated asset URLs valid in both places.
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
