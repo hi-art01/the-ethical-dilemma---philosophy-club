@@ -137,7 +137,7 @@ END:VCALENDAR`;
                 <UserCheck className="w-4 h-4 text-[#5e5e5b]" />
                 <div>
                   <div className="text-xs uppercase tracking-wider text-[#74777d]">Vice President</div>
-                  <div className="font-medium text-[#1c1c16]">{clubInfo.vicePresidentName || 'Arthur Yount'}</div>
+                  <div className="font-medium text-[#1c1c16]">{clubInfo.vicePresidentName || 'Arthur Yount & Augie Wilhelm'}</div>
                 </div>
               </div>
 

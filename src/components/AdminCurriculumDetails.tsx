@@ -241,7 +241,7 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
                 type="text"
                 value={formData.vicePresidentName || ''}
                 onChange={(e) => setFormData({ ...formData, vicePresidentName: e.target.value })}
-                placeholder="e.g. Arthur Yount"
+                placeholder="e.g. Arthur Yount & Augie Wilhelm"
                 className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]"
               />
             </div>
