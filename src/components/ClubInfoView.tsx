@@ -33,7 +33,7 @@ export const ClubInfoView: React.FC<ClubInfoViewProps> = ({
   const handleDownloadCalendarInvite = () => {
     const icsData = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//The Ethical Dilemma//Philosophy Club//EN
+PRODID:-//Ink & Ethics//Philosophy Club//EN
 BEGIN:VEVENT
 SUMMARY:${clubInfo.clubName || 'Philosophy Club Meeting'}
 DESCRIPTION:${clubInfo.tagline}
@@ -124,12 +124,20 @@ END:VCALENDAR`;
             <div className="w-full h-px bg-[#ece8df]"></div>
 
             {/* Officers / Leadership */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1 text-sm">
               <div className="flex items-center gap-2.5">
                 <UserCheck className="w-4 h-4 text-[#5e5e5b]" />
                 <div>
                   <div className="text-xs uppercase tracking-wider text-[#74777d]">Club President</div>
-                  <div className="font-medium text-[#1c1c16]">{clubInfo.presidentName || 'Julian Vance'}</div>
+                  <div className="font-medium text-[#1c1c16]">{clubInfo.presidentName || 'Erik Mathaney'}</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <UserCheck className="w-4 h-4 text-[#5e5e5b]" />
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-[#74777d]">Vice President</div>
+                  <div className="font-medium text-[#1c1c16]">{clubInfo.vicePresidentName || 'Arthur Yount'}</div>
                 </div>
               </div>
 

@@ -20,7 +20,7 @@ export const Footer: React.FC<FooterProps> = ({
       <div className="max-w-[1120px] mx-auto px-5 sm:px-8 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Left / Center: Copyright Text */}
         <div className="text-sm text-[#1c1c16] text-center md:text-left leading-relaxed opacity-90">
-          © {new Date().getFullYear()} The Ethical Dilemma Philosophy Club. Dedicated to the pursuit of wisdom.
+          © {new Date().getFullYear()} Ink & Ethics Philosophy Club. Dedicated to the pursuit of wisdom.
         </div>
 
         {/* Center / Right: Navigation Links */}

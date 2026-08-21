@@ -38,6 +38,7 @@ export interface ClubInfo {
   scheduleDetail: string;
   groupmeUrl: string;
   presidentName: string;
+  vicePresidentName?: string;
   facultyAdvisor: string;
   contactEmail: string;
   heroImageUrl: string;

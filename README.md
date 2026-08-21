@@ -1,4 +1,4 @@
-# The Ethical Dilemma
+# Ink & Ethics
 
 The student philosophy club site for weekly quotations, discussion topics, and club details.
 

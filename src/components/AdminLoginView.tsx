@@ -25,7 +25,7 @@ export const AdminLoginView: React.FC<AdminLoginViewProps> = ({ onLoginSuccess, 
     <main className="w-full max-w-md mx-auto py-12 md:py-20 px-4 animate-in fade-in duration-300">
       <div className="mb-10 text-center">
         <h1 className="font-serif text-3xl md:text-[40px] font-bold text-[#041627]">
-          The Ethical Dilemma
+          Ink & Ethics
         </h1>
         <div className="w-12 h-px bg-[#74777d] mx-auto mt-4"></div>
       </div>

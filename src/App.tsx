@@ -15,6 +15,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { WeeklyQuoteView } from './components/WeeklyQuoteView';
 import { TopicsView } from './components/TopicsView';
+import { EssaysView } from './components/EssaysView';
 import { ClubInfoView } from './components/ClubInfoView';
 import { AdminDashboardQuotes } from './components/AdminDashboardQuotes';
 import { AdminCurriculumDetails } from './components/AdminCurriculumDetails';
@@ -39,7 +40,7 @@ export function App() {
 
   // View state
   const [currentView, setCurrentView] = useState<
-    'weekly-quote' | 'topics' | 'club-info' | 'admin-quotes' | 'admin-curriculum' | 'admin-login'
+    'weekly-quote' | 'topics' | 'essays' | 'club-info' | 'admin-quotes' | 'admin-curriculum' | 'admin-login'
   >('weekly-quote');
 
   // Modal States
@@ -163,6 +164,8 @@ export function App() {
           isAdmin={isAdmin}
         />
       )}
+
+      {currentView === 'essays' && <EssaysView />}
 
       {currentView === 'club-info' && (
         <ClubInfoView

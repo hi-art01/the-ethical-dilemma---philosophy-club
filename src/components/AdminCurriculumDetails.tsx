@@ -235,6 +235,19 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
 
             <div className="space-y-1">
               <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">
+                Vice President
+              </label>
+              <input
+                type="text"
+                value={formData.vicePresidentName || ''}
+                onChange={(e) => setFormData({ ...formData, vicePresidentName: e.target.value })}
+                placeholder="e.g. Arthur Yount"
+                className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">
                 Faculty Advisor
               </label>
               <input

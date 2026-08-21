@@ -1,14 +1,15 @@
 import { Quote, Topic, ClubInfo, ReadingItem } from '../types';
 
 export const initialClubInfo: ClubInfo = {
-  clubName: 'The Ethical Dilemma',
+  clubName: 'Ink & Ethics',
   schoolName: 'Brentwood High School',
   tagline: 'A forum for rigorous intellectual exploration and structured discourse, open to all students seeking deeper understanding.',
   classroom: 'Classroom S102',
   frequency: 'Every other Friday',
   scheduleDetail: 'After school, 3:30 PM - 5:00 PM',
   groupmeUrl: 'https://groupme.com/join_group/lyceum',
-  presidentName: 'Julian Vance',
+  presidentName: 'Erik Mathaney',
+  vicePresidentName: 'Arthur Yount',
   facultyAdvisor: 'Dr. Eleanor Hayes, Dept. of Humanities',
   contactEmail: 'contact@ethicaldilemma-club.org',
   heroImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCEykQszlCl7E2hrok8CotfSslwEefz-e_GVqcKe7BweMJNEesqiDcclcnChu75wsiLR4P0aESco3giKma8gMxew4uHbPq3muWZhhJXSFhtCQWa-5rWjp8J3auFAiM0X5e3VgqN-99wbaBgJ4DKxAusYFbrOfvq834iUyMVA-x6RhHVx3aF9zsIXzlRNnQ2FCBHbbkkXQZnToNCxklCdwH3QeKnpLBTqriMCX-1kKXdlXPvg7wZoone',

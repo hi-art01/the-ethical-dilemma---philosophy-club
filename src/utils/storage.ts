@@ -1,7 +1,8 @@
 import { ClubInfo, Quote, Topic } from '../types';
 import { initialClubInfo, initialQuotes, initialTopics } from '../data/initialData';
 
-const CLUB_INFO_KEY = 'ethical_dilemma_club_info_v1';
+// Bump the key so returning visitors receive the renamed club defaults.
+const CLUB_INFO_KEY = 'ink_ethics_club_info_v2';
 const QUOTES_KEY = 'ethical_dilemma_quotes_v1';
 const TOPICS_KEY = 'ethical_dilemma_topics_v1';
 const ADMIN_AUTH_KEY = 'ethical_dilemma_admin_auth_v1';
@@ -9,7 +10,7 @@ const ADMIN_AUTH_KEY = 'ethical_dilemma_admin_auth_v1';
 export function getStoredClubInfo(): ClubInfo {
   try {
     const raw = localStorage.getItem(CLUB_INFO_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) return { ...initialClubInfo, ...JSON.parse(raw) };
   } catch (e) {
     console.error('Failed to load club info from storage', e);
   }
