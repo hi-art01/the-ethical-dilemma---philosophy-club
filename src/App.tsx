@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ClubInfo, Quote, Topic } from './types';
+import { ClubInfo, Quote, Topic, Poll, ForumThread } from './types';
 import {
   getStoredClubInfo,
   saveClubInfo,
@@ -10,6 +10,10 @@ import {
   getAdminAuthState,
   setAdminAuthState,
   resetAllDataToDefault,
+  getStoredPolls,
+  savePolls,
+  getStoredForumThreads,
+  saveForumThreads,
 } from './utils/storage';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -21,6 +25,8 @@ import { ClubInfoView } from './components/ClubInfoView';
 import { AdminDashboardQuotes } from './components/AdminDashboardQuotes';
 import { AdminCurriculumDetails } from './components/AdminCurriculumDetails';
 import { AdminLoginView } from './components/AdminLoginView';
+import { PollsView } from './components/PollsView';
+import { ForumsView } from './components/ForumsView';
 import { AdminAddTopicModal } from './components/AdminAddTopicModal';
 import {
   JoinClubModal,
@@ -38,10 +44,12 @@ export function App() {
   const [quotes, setQuotes] = useState<Quote[]>(getStoredQuotes);
   const [topics, setTopics] = useState<Topic[]>(getStoredTopics);
   const [isAdmin, setIsAdmin] = useState<boolean>(getAdminAuthState);
+  const [polls, setPolls] = useState<Poll[]>(getStoredPolls);
+  const [forumThreads, setForumThreads] = useState<ForumThread[]>(getStoredForumThreads);
 
   // View state
   const [currentView, setCurrentView] = useState<
-    'weekly-quote' | 'topics' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login'
+    'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login'
   >('weekly-quote');
 
   // Modal States
@@ -70,6 +78,12 @@ export function App() {
   useEffect(() => {
     saveTopics(topics);
   }, [topics]);
+  useEffect(() => savePolls(polls), [polls]);
+  useEffect(() => saveForumThreads(forumThreads), [forumThreads]);
+
+  const handleVote = (pollId: string, optionId: string) => setPolls((current) => current.map((poll) => poll.id === pollId ? { ...poll, options: poll.options.map((option) => option.id === optionId ? { ...option, votes: option.votes + 1 } : option) } : poll));
+  const handleAddThread = (thread: Omit<ForumThread, 'id' | 'createdAt' | 'comments'>) => setForumThreads((current) => [{ ...thread, id: `thread-${Date.now()}`, createdAt: new Date().toISOString(), comments: [] }, ...current]);
+  const handleAddComment = (threadId: string, comment: Omit<ForumThread['comments'][number], 'id' | 'createdAt'>) => setForumThreads((current) => current.map((thread) => thread.id === threadId ? { ...thread, comments: [...thread.comments, { ...comment, id: `comment-${Date.now()}`, createdAt: new Date().toISOString() }] } : thread));
 
   // Handlers for Quotes
   const handleAddQuote = (newQuoteData: Omit<Quote, 'id'>) => {
@@ -165,6 +179,9 @@ export function App() {
           isAdmin={isAdmin}
         />
       )}
+
+      {currentView === 'polls' && <PollsView polls={polls} onVote={handleVote} />}
+      {currentView === 'forums' && <ForumsView threads={forumThreads} onAddThread={handleAddThread} onAddComment={handleAddComment} />}
 
       {currentView === 'essays' && <EssaysView />}
 

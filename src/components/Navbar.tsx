@@ -3,8 +3,8 @@ import { ClubInfo } from '../types';
 import { Search, Menu, X, Shield, LogIn, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
-  currentView: 'weekly-quote' | 'topics' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login';
-  onNavigate: (view: 'weekly-quote' | 'topics' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login') => void;
+  currentView: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login';
+  onNavigate: (view: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login') => void;
   onOpenJoinModal: () => void;
   onOpenSearchModal: () => void;
   isAdmin: boolean;
@@ -22,8 +22,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   clubInfo,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const isPublicView = ['weekly-quote', 'topics', 'essays', 'club-info', 'credits'].includes(currentView);
 
   return (
     <header className="bg-[#fdf9f0] border-b border-[#c4c6cd]/70 sticky top-0 z-40 w-full transition-shadow duration-300">
@@ -132,6 +130,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             Topics
           </button>
 
+          <button onClick={() => onNavigate('polls')} className={`text-sm tracking-wide transition-colors py-1 ${currentView === 'polls' ? 'text-[#041627] font-bold border-b-2 border-[#041627]' : 'text-[#5e5e5b] hover:text-[#041627]'}`}>Polls</button>
+          <button onClick={() => onNavigate('forums')} className={`text-sm tracking-wide transition-colors py-1 ${currentView === 'forums' ? 'text-[#041627] font-bold border-b-2 border-[#041627]' : 'text-[#5e5e5b] hover:text-[#041627]'}`}>Forums</button>
+
           <button
             onClick={() => onNavigate('club-info')}
             className={`text-sm tracking-wide transition-colors py-1 ${
@@ -218,6 +219,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             Topics & Syllabus
           </button>
+          <button onClick={() => { onNavigate('polls'); setMobileMenuOpen(false); }} className={`text-left text-base py-1.5 ${currentView === 'polls' ? 'font-bold text-[#041627]' : 'text-[#5e5e5b]'}`}>Polls</button>
+          <button onClick={() => { onNavigate('forums'); setMobileMenuOpen(false); }} className={`text-left text-base py-1.5 ${currentView === 'forums' ? 'font-bold text-[#041627]' : 'text-[#5e5e5b]'}`}>Comment Forums</button>
           <button
             onClick={() => {
               onNavigate('club-info');
