@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ClubInfo } from '../types';
-import { Search, Menu, X, Shield, LogIn, Sparkles } from 'lucide-react';
+import { Search, Menu, X, Shield } from 'lucide-react';
 
 interface NavbarProps {
   currentView: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login';
@@ -181,6 +181,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="bg-[#041627] text-white text-[12px] font-semibold tracking-widest uppercase px-5 py-2.5 rounded-[2px] hover:bg-[#1a2b3c] active:scale-95 transition-all shadow-sm"
           >
             Join Club
+          </button>
+
+          <button
+            onClick={() => onNavigate(isAdmin ? 'admin-quotes' : 'admin-login')}
+            className="inline-flex items-center gap-1.5 border border-[#041627] text-[#041627] text-[12px] font-semibold tracking-widest uppercase px-4 py-2.5 rounded-[2px] hover:bg-[#ece4d6] active:scale-95 transition-all"
+          >
+            <Shield className="w-3.5 h-3.5" /> Admin
           </button>
 
           {/* Mobile hamburger */}

@@ -7,6 +7,7 @@ import fs from 'node:fs/promises';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = Number(process.env.PORT || 8787);
+const adminPassword = process.env.ADMIN_PASSWORD || '2499';
 const dataDirectory = path.join(__dirname, 'server-data');
 const essaysFile = path.join(dataDirectory, 'essays.json');
 
@@ -48,16 +49,14 @@ app.get('/api/essays', async (_request, response) => {
 });
 
 app.post('/api/admin/session', (request, response) => {
-  const configuredPassword = process.env.ADMIN_PASSWORD;
-  if (!configuredPassword) return response.status(503).json({ error: 'Admin access is not configured on the server.' });
-  if (request.body?.password !== configuredPassword) return response.status(401).json({ error: 'Incorrect administrator password.' });
-  response.json({ token: configuredPassword });
+  if (request.body?.password !== adminPassword) return response.status(401).json({ error: 'Incorrect administrator password.' });
+  response.json({ token: adminPassword });
 });
 
 app.delete('/api/essays/:id', async (request, response) => {
   const email = typeof request.body?.email === 'string' ? request.body.email.trim().toLowerCase() : '';
   const adminToken = request.get('Authorization')?.replace(/^Bearer\s+/i, '');
-  const isAdmin = Boolean(process.env.ADMIN_PASSWORD) && adminToken === process.env.ADMIN_PASSWORD;
+  const isAdmin = adminToken === adminPassword;
   if (!email && !isAdmin) return response.status(401).json({ error: 'Sign in as an administrator or provide the submitting email.' });
   try {
     const essays = await readEssays();

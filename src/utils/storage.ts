@@ -13,7 +13,7 @@ export function getStoredClubInfo(): ClubInfo {
     if (raw) return { ...initialClubInfo, ...JSON.parse(raw) };
     const previous = localStorage.getItem('ink_ethics_club_info_v3');
     if (previous) {
-      const migrated = { ...initialClubInfo, ...JSON.parse(previous), facultyAdvisor: 'Uncle Larry' };
+      const migrated = { ...initialClubInfo, ...JSON.parse(previous), facultyAdvisor: 'Uncle Larry', groupmeUrl: initialClubInfo.groupmeUrl };
       localStorage.setItem(CLUB_INFO_KEY, JSON.stringify(migrated));
       return migrated;
     }

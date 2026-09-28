@@ -7,7 +7,7 @@ export const initialClubInfo: ClubInfo = {
   classroom: 'Classroom S102',
   frequency: 'Every other Friday',
   scheduleDetail: 'After school, 3:30 PM - 5:00 PM',
-  groupmeUrl: 'https://groupme.com/join_group/lyceum',
+  groupmeUrl: 'https://groupme.com/join_group/116764479/eECvK0Ko',
   presidentName: 'Erik Mathaney',
   vicePresidentName: 'Arthur Yount & Augie Wilhelm',
   facultyAdvisor: 'Uncle Larry',
