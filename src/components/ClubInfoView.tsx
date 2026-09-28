@@ -152,7 +152,7 @@ END:VCALENDAR`;
                 <ShieldCheck className="w-4 h-4 text-[#5e5e5b]" />
                 <div>
                   <div className="text-xs uppercase tracking-wider text-[#74777d]">Faculty Advisor</div>
-                  <div className="font-medium text-[#1c1c16]">{clubInfo.facultyAdvisor || 'Dr. Eleanor Hayes'}</div>
+                  <div className="font-medium text-[#1c1c16]">{clubInfo.facultyAdvisor || 'Uncle Larry'}</div>
                 </div>
               </div>
             </div>

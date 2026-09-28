@@ -10,7 +10,7 @@ export const initialClubInfo: ClubInfo = {
   groupmeUrl: 'https://groupme.com/join_group/lyceum',
   presidentName: 'Erik Mathaney',
   vicePresidentName: 'Arthur Yount & Augie Wilhelm',
-  facultyAdvisor: 'Dr. Eleanor Hayes, Dept. of Humanities',
+  facultyAdvisor: 'Uncle Larry',
   contactEmail: 'contact@ethicaldilemma-club.org',
   heroImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCEykQszlCl7E2hrok8CotfSslwEefz-e_GVqcKe7BweMJNEesqiDcclcnChu75wsiLR4P0aESco3giKma8gMxew4uHbPq3muWZhhJXSFhtCQWa-5rWjp8J3auFAiM0X5e3VgqN-99wbaBgJ4DKxAusYFbrOfvq834iUyMVA-x6RhHVx3aF9zsIXzlRNnQ2FCBHbbkkXQZnToNCxklCdwH3QeKnpLBTqriMCX-1kKXdlXPvg7wZoone',
 };

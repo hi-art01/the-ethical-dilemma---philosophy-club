@@ -44,6 +44,7 @@ export function App() {
   const [quotes, setQuotes] = useState<Quote[]>(getStoredQuotes);
   const [topics, setTopics] = useState<Topic[]>(getStoredTopics);
   const [isAdmin, setIsAdmin] = useState<boolean>(getAdminAuthState);
+  const [adminToken, setAdminToken] = useState<string>(() => localStorage.getItem('ethical_dilemma_admin_token_v1') || '');
   const [polls, setPolls] = useState<Poll[]>(getStoredPolls);
   const [forumThreads, setForumThreads] = useState<ForumThread[]>(getStoredForumThreads);
 
@@ -127,14 +128,18 @@ export function App() {
   };
 
   // Auth Handlers
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (token: string) => {
     setIsAdmin(true);
+    setAdminToken(token);
+    localStorage.setItem('ethical_dilemma_admin_token_v1', token);
     setAdminAuthState(true);
     setCurrentView('admin-quotes');
   };
 
   const handleLogout = () => {
     setIsAdmin(false);
+    setAdminToken('');
+    localStorage.removeItem('ethical_dilemma_admin_token_v1');
     setAdminAuthState(false);
     setCurrentView('weekly-quote');
   };
@@ -183,7 +188,7 @@ export function App() {
       {currentView === 'polls' && <PollsView polls={polls} onVote={handleVote} />}
       {currentView === 'forums' && <ForumsView threads={forumThreads} onAddThread={handleAddThread} onAddComment={handleAddComment} />}
 
-      {currentView === 'essays' && <EssaysView />}
+      {currentView === 'essays' && <EssaysView isAdmin={isAdmin} adminToken={adminToken} />}
 
       {currentView === 'credits' && <CreditsView />}
 

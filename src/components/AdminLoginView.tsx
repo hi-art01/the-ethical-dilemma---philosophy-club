@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { ArrowLeft, KeyRound } from 'lucide-react';
+import { loginAdmin } from '../utils/essayApi';
 
 interface AdminLoginViewProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (token: string) => void;
   onCancel: () => void;
 }
 
@@ -10,15 +11,10 @@ export const AdminLoginView: React.FC<AdminLoginViewProps> = ({ onLoginSuccess, 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Default pass is "admin" or "wisdom" or any non-empty password
-    if (password.trim() === 'admin' || password.trim() === 'wisdom' || password.trim().length >= 3) {
-      setError('');
-      onLoginSuccess();
-    } else {
-      setError('Please enter a valid password (e.g. "admin" or "wisdom")');
-    }
+    try { onLoginSuccess(await loginAdmin(password)); setError(''); }
+    catch (error) { setError(error instanceof Error ? error.message : 'Administrator login failed.'); }
   };
 
   return (
@@ -48,7 +44,7 @@ export const AdminLoginView: React.FC<AdminLoginViewProps> = ({ onLoginSuccess, 
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password (demo: admin)"
+              placeholder="Enter administrator password"
               className="w-full bg-transparent border-0 border-b border-[#44474c] focus:border-[#041627] focus:ring-0 px-0 py-2 text-base text-[#1c1c16] placeholder-[#74777d] transition-colors"
               required
               autoFocus

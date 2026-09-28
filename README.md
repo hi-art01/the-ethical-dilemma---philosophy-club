@@ -18,6 +18,11 @@ with `npm run server` (it listens on port `8787`) while `npm run dev` is running
 Vite proxies `/api` requests to it. A production server can serve the built
 `dist` folder and the API together with `npm start`.
 
+Set `ADMIN_PASSWORD` in the API server environment before using administrator
+login. The admin password is checked by the server; do not use the example
+placeholder in production. Essay authors can delete their public essays by
+confirming the email address they used when submitting.
+
 GitHub Pages only hosts the static frontend, so it cannot persist essay
 submissions by itself. Set `VITE_API_BASE_URL` at build time to the public URL of
 the deployed API when the frontend and API are hosted separately.

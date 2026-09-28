@@ -14,7 +14,7 @@ app.use((request, response, next) => {
   const allowedOrigin = process.env.CORS_ORIGIN || '*';
   response.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  response.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  response.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
   if (request.method === 'OPTIONS') return response.sendStatus(204);
   next();
 });
@@ -44,6 +44,31 @@ app.get('/api/essays', async (_request, response) => {
   } catch (error) {
     console.error('Failed to read essays', error);
     response.status(500).json({ error: 'Essay service unavailable' });
+  }
+});
+
+app.post('/api/admin/session', (request, response) => {
+  const configuredPassword = process.env.ADMIN_PASSWORD;
+  if (!configuredPassword) return response.status(503).json({ error: 'Admin access is not configured on the server.' });
+  if (request.body?.password !== configuredPassword) return response.status(401).json({ error: 'Incorrect administrator password.' });
+  response.json({ token: configuredPassword });
+});
+
+app.delete('/api/essays/:id', async (request, response) => {
+  const email = typeof request.body?.email === 'string' ? request.body.email.trim().toLowerCase() : '';
+  const adminToken = request.get('Authorization')?.replace(/^Bearer\s+/i, '');
+  const isAdmin = Boolean(process.env.ADMIN_PASSWORD) && adminToken === process.env.ADMIN_PASSWORD;
+  if (!email && !isAdmin) return response.status(401).json({ error: 'Sign in as an administrator or provide the submitting email.' });
+  try {
+    const essays = await readEssays();
+    const target = essays.find((essay) => essay.id === request.params.id);
+    if (!target) return response.status(404).json({ error: 'Essay not found.' });
+    if (!isAdmin && target.email.toLowerCase() !== email) return response.status(403).json({ error: 'That email does not own this essay.' });
+    await writeEssays(essays.filter((essay) => essay.id !== request.params.id));
+    response.sendStatus(204);
+  } catch (error) {
+    console.error('Failed to delete essay', error);
+    response.status(500).json({ error: 'Essay could not be deleted.' });
   }
 });
 
