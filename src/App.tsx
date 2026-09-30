@@ -89,6 +89,14 @@ export function App() {
 
   const handleVote = (pollId: string, optionId: string) => setPolls((current) => current.map((poll) => poll.id === pollId ? { ...poll, options: poll.options.map((option) => option.id === optionId ? { ...option, votes: option.votes + 1 } : option) } : poll));
   const handleAddPoll = (poll: Omit<Poll, 'id'>) => setPolls(current => [{ ...poll, id: `poll-${Date.now()}` }, ...current]);
+  const handleDeletePoll = (id: string) => {
+    setPolls(current => current.filter(poll => poll.id !== id));
+    try {
+      const votes = JSON.parse(localStorage.getItem('pollVotes') || '{}');
+      delete votes[id];
+      localStorage.setItem('pollVotes', JSON.stringify(votes));
+    } catch { /* Poll removal should still work if old vote data is malformed. */ }
+  };
   const handleAddThread = (thread: Omit<ForumThread, 'id' | 'createdAt' | 'comments'>) => setForumThreads((current) => [{ ...thread, id: `thread-${Date.now()}`, createdAt: new Date().toISOString(), comments: [] }, ...current]);
   const handleAddComment = (threadId: string, comment: Omit<ForumThread['comments'][number], 'id' | 'createdAt'>) => setForumThreads((current) => current.map((thread) => thread.id === threadId ? { ...thread, comments: [...thread.comments, { ...comment, id: `comment-${Date.now()}`, createdAt: new Date().toISOString() }] } : thread));
 
@@ -191,7 +199,7 @@ export function App() {
         />
       )}
 
-      {currentView === 'polls' && <PollsView polls={polls} onVote={handleVote} />}
+      {currentView === 'polls' && <PollsView polls={polls} onVote={handleVote} isAdmin={isAdmin} onDeletePoll={handleDeletePoll} />}
       {currentView === 'forums' && <ForumsView threads={forumThreads} onAddThread={handleAddThread} onAddComment={handleAddComment} />}
 
       {currentView === 'essays' && <EssaysView isAdmin={isAdmin} adminToken={adminToken} />}
@@ -239,7 +247,7 @@ export function App() {
           onResetDefaults={handleResetDefaults}
         />
       )}
-      {currentView === 'admin-community' && isAdmin && <AdminCommunity polls={polls} threads={forumThreads} credits={credits} onAddPoll={handleAddPoll} onDeletePoll={id => { setPolls(current => current.filter(poll => poll.id !== id)); const votes = JSON.parse(localStorage.getItem('pollVotes') || '{}'); delete votes[id]; localStorage.setItem('pollVotes', JSON.stringify(votes)); }} onDeleteThread={id => setForumThreads(current => current.filter(thread => thread.id !== id))} onSaveCredits={setCredits} />}
+      {currentView === 'admin-community' && isAdmin && <AdminCommunity polls={polls} threads={forumThreads} credits={credits} onAddPoll={handleAddPoll} onDeletePoll={handleDeletePoll} onDeleteThread={id => setForumThreads(current => current.filter(thread => thread.id !== id))} onSaveCredits={setCredits} />}
 
       {/* Shared Academic Footer */}
       <Footer
