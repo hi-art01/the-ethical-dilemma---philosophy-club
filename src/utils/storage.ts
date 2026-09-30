@@ -1,4 +1,4 @@
-import { ClubInfo, Quote, Topic, Poll, ForumThread } from '../types';
+import { ClubInfo, Quote, Topic, Poll, ForumThread, CreditsInfo } from '../types';
 import { initialClubInfo, initialQuotes, initialTopics } from '../data/initialData';
 
 // Bump the key so returning visitors receive the renamed club defaults.
@@ -6,6 +6,10 @@ const CLUB_INFO_KEY = 'ink_ethics_club_info_v4';
 const QUOTES_KEY = 'ethical_dilemma_quotes_v1';
 const TOPICS_KEY = 'ethical_dilemma_topics_v1';
 const ADMIN_AUTH_KEY = 'ethical_dilemma_admin_auth_v1';
+const CREDITS_KEY = 'ethical_dilemma_credits_v1';
+export const defaultCredits: CreditsInfo = { president: 'Erik Mathaney', vicePresidents: 'Arthur Yount & Augie Wilhelm', footer: 'Managed by Erik · Designed by Arthur' };
+export function getStoredCredits(): CreditsInfo { try { return { ...defaultCredits, ...JSON.parse(localStorage.getItem(CREDITS_KEY) || '{}') }; } catch { return defaultCredits; } }
+export function saveCredits(info: CreditsInfo): void { localStorage.setItem(CREDITS_KEY, JSON.stringify(info)); }
 
 export function getStoredClubInfo(): ClubInfo {
   try {

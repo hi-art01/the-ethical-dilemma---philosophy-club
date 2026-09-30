@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ClubInfo, Quote, Topic, Poll, ForumThread } from './types';
+import { ClubInfo, Quote, Topic, Poll, ForumThread, CreditsInfo } from './types';
 import {
   getStoredClubInfo,
   saveClubInfo,
@@ -14,6 +14,8 @@ import {
   savePolls,
   getStoredForumThreads,
   saveForumThreads,
+  getStoredCredits,
+  saveCredits,
 } from './utils/storage';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -27,6 +29,7 @@ import { AdminCurriculumDetails } from './components/AdminCurriculumDetails';
 import { AdminLoginView } from './components/AdminLoginView';
 import { PollsView } from './components/PollsView';
 import { ForumsView } from './components/ForumsView';
+import { AdminCommunity } from './components/AdminCommunity';
 import { AdminAddTopicModal } from './components/AdminAddTopicModal';
 import {
   JoinClubModal,
@@ -47,10 +50,11 @@ export function App() {
   const [adminToken, setAdminToken] = useState<string>(() => localStorage.getItem('ethical_dilemma_admin_token_v1') || '');
   const [polls, setPolls] = useState<Poll[]>(getStoredPolls);
   const [forumThreads, setForumThreads] = useState<ForumThread[]>(getStoredForumThreads);
+  const [credits, setCredits] = useState<CreditsInfo>(getStoredCredits);
 
   // View state
   const [currentView, setCurrentView] = useState<
-    'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login'
+    'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-community' | 'admin-login'
   >('weekly-quote');
 
   // Modal States
@@ -81,8 +85,10 @@ export function App() {
   }, [topics]);
   useEffect(() => savePolls(polls), [polls]);
   useEffect(() => saveForumThreads(forumThreads), [forumThreads]);
+  useEffect(() => saveCredits(credits), [credits]);
 
   const handleVote = (pollId: string, optionId: string) => setPolls((current) => current.map((poll) => poll.id === pollId ? { ...poll, options: poll.options.map((option) => option.id === optionId ? { ...option, votes: option.votes + 1 } : option) } : poll));
+  const handleAddPoll = (poll: Omit<Poll, 'id'>) => setPolls(current => [{ ...poll, id: `poll-${Date.now()}` }, ...current]);
   const handleAddThread = (thread: Omit<ForumThread, 'id' | 'createdAt' | 'comments'>) => setForumThreads((current) => [{ ...thread, id: `thread-${Date.now()}`, createdAt: new Date().toISOString(), comments: [] }, ...current]);
   const handleAddComment = (threadId: string, comment: Omit<ForumThread['comments'][number], 'id' | 'createdAt'>) => setForumThreads((current) => current.map((thread) => thread.id === threadId ? { ...thread, comments: [...thread.comments, { ...comment, id: `comment-${Date.now()}`, createdAt: new Date().toISOString() }] } : thread));
 
@@ -190,7 +196,7 @@ export function App() {
 
       {currentView === 'essays' && <EssaysView isAdmin={isAdmin} adminToken={adminToken} />}
 
-      {currentView === 'credits' && <CreditsView />}
+      {currentView === 'credits' && <CreditsView credits={credits} />}
 
       {currentView === 'club-info' && (
         <ClubInfoView
@@ -233,6 +239,7 @@ export function App() {
           onResetDefaults={handleResetDefaults}
         />
       )}
+      {currentView === 'admin-community' && isAdmin && <AdminCommunity polls={polls} threads={forumThreads} credits={credits} onAddPoll={handleAddPoll} onDeletePoll={id => { setPolls(current => current.filter(poll => poll.id !== id)); const votes = JSON.parse(localStorage.getItem('pollVotes') || '{}'); delete votes[id]; localStorage.setItem('pollVotes', JSON.stringify(votes)); }} onDeleteThread={id => setForumThreads(current => current.filter(thread => thread.id !== id))} onSaveCredits={setCredits} />}
 
       {/* Shared Academic Footer */}
       <Footer

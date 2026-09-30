@@ -57,5 +57,6 @@ export interface ReadingItem {
 
 export interface PollOption { id: string; label: string; votes: number; }
 export interface Poll { id: string; question: string; context: string; closes: string; options: PollOption[]; }
+export interface CreditsInfo { president: string; vicePresidents: string; footer: string; }
 export interface ForumComment { id: string; author: string; body: string; createdAt: string; }
 export interface ForumThread { id: string; title: string; category: string; author: string; body: string; createdAt: string; comments: ForumComment[]; }

@@ -3,8 +3,8 @@ import { ClubInfo } from '../types';
 import { Search, Menu, X, Shield } from 'lucide-react';
 
 interface NavbarProps {
-  currentView: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login';
-  onNavigate: (view: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-login') => void;
+  currentView: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-community' | 'admin-login';
+  onNavigate: (view: 'weekly-quote' | 'topics' | 'polls' | 'forums' | 'essays' | 'club-info' | 'credits' | 'admin-quotes' | 'admin-curriculum' | 'admin-community' | 'admin-login') => void;
   onOpenJoinModal: () => void;
   onOpenSearchModal: () => void;
   isAdmin: boolean;
@@ -50,6 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               Curriculum & Details
             </button>
+            <button onClick={() => onNavigate('admin-community')} className={`px-2 py-0.5 rounded transition-colors ${currentView === 'admin-community' ? 'bg-[#1a2b3c] text-white font-bold' : 'hover:text-white'}`}>Community & Pages</button>
             <button
               onClick={() => onNavigate('weekly-quote')}
               className="text-[#b7c8de] hover:text-white underline ml-2"
@@ -105,6 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 Manage Topics
               </button>
+              <button onClick={() => onNavigate('admin-community')} className={`text-sm tracking-wide transition-colors py-1 ${currentView === 'admin-community' ? 'text-[#041627] font-bold border-b-2 border-[#041627]' : 'text-[#5e5e5b] hover:text-[#041627]'}`}>Community & Pages</button>
             </>
           )}
 
@@ -294,6 +296,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 • Curriculum & Details Manager
               </button>
+              <button onClick={() => { onNavigate('admin-community'); setMobileMenuOpen(false); }} className="text-left text-sm text-[#041627] hover:underline">• Community & Pages</button>
               <button
                 onClick={() => {
                   onLogoutAdmin();
