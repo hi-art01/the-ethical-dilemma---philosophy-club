@@ -8,7 +8,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = Number(process.env.PORT || 8787);
 const adminPassword = process.env.ADMIN_PASSWORD || '2499';
-const dataDirectory = path.join(__dirname, 'server-data');
+// Render's filesystem is ephemeral unless a persistent disk is mounted. Set
+// DATA_DIR to that disk's mount path (commonly /var/data) in production.
+const dataDirectory = process.env.DATA_DIR || path.join(__dirname, 'server-data');
 const essaysFile = path.join(dataDirectory, 'essays.json');
 
 app.use((request, response, next) => {
