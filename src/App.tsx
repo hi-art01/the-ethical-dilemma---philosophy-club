@@ -40,6 +40,7 @@ import {
   ContactModal,
   SearchModal,
 } from './components/Modals';
+import { fetchSharedAppState, savePublicAction, saveSharedAppState } from './utils/appStateApi';
 
 export function App() {
   // Main Data States with LocalStorage Persistence
@@ -51,6 +52,26 @@ export function App() {
   const [polls, setPolls] = useState<Poll[]>(getStoredPolls);
   const [forumThreads, setForumThreads] = useState<ForumThread[]>(getStoredForumThreads);
   const [credits, setCredits] = useState<CreditsInfo>(getStoredCredits);
+  const [sharedStateLoaded, setSharedStateLoaded] = useState(false);
+
+  useEffect(() => {
+    fetchSharedAppState().then((shared) => {
+      if (shared) {
+        if (shared.clubInfo) setClubInfo(shared.clubInfo);
+        if (shared.quotes) setQuotes(shared.quotes);
+        if (shared.topics) setTopics(shared.topics);
+        if (shared.polls) setPolls(shared.polls);
+        if (shared.forumThreads) setForumThreads(shared.forumThreads);
+        if (shared.credits) setCredits(shared.credits);
+      }
+    }).catch((error) => console.error('Could not load shared club data', error)).finally(() => setSharedStateLoaded(true));
+  }, []);
+
+  useEffect(() => {
+    if (!sharedStateLoaded || !adminToken) return;
+    saveSharedAppState({ clubInfo, quotes, topics, polls, forumThreads, credits }, adminToken)
+      .catch((error) => console.error('Could not save shared club data', error));
+  }, [sharedStateLoaded, adminToken, clubInfo, quotes, topics, polls, forumThreads, credits]);
 
   // View state
   const [currentView, setCurrentView] = useState<
@@ -87,7 +108,9 @@ export function App() {
   useEffect(() => saveForumThreads(forumThreads), [forumThreads]);
   useEffect(() => saveCredits(credits), [credits]);
 
-  const handleVote = (pollId: string, optionId: string) => setPolls((current) => current.map((poll) => poll.id === pollId ? { ...poll, options: poll.options.map((option) => option.id === optionId ? { ...option, votes: option.votes + 1 } : option) } : poll));
+  const handleVote = (pollId: string, optionId: string) => {
+    savePublicAction('vote', { pollId, optionId }).then((state) => { if (state.polls) setPolls(state.polls); }).catch((error) => console.error('Could not save poll vote', error));
+  };
   const handleAddPoll = (poll: Omit<Poll, 'id'>) => setPolls(current => [{ ...poll, id: `poll-${Date.now()}` }, ...current]);
   const handleDeletePoll = (id: string) => {
     setPolls(current => current.filter(poll => poll.id !== id));
@@ -97,9 +120,15 @@ export function App() {
       localStorage.setItem('pollVotes', JSON.stringify(votes));
     } catch { /* Poll removal should still work if old vote data is malformed. */ }
   };
-  const handleAddThread = (thread: Omit<ForumThread, 'id' | 'createdAt' | 'comments'>) => setForumThreads((current) => [{ ...thread, id: `thread-${Date.now()}`, createdAt: new Date().toISOString(), comments: [] }, ...current]);
+  const handleAddThread = (thread: Omit<ForumThread, 'id' | 'createdAt' | 'comments'>) => {
+    const saved = { ...thread, id: `thread-${Date.now()}`, createdAt: new Date().toISOString(), comments: [] };
+    savePublicAction('add-thread', saved).then((state) => { if (state.forumThreads) setForumThreads(state.forumThreads); }).catch((error) => console.error('Could not save forum thread', error));
+  };
   const handleDeleteThread = (id: string) => setForumThreads(current => current.filter(thread => thread.id !== id));
-  const handleAddComment = (threadId: string, comment: Omit<ForumThread['comments'][number], 'id' | 'createdAt'>) => setForumThreads((current) => current.map((thread) => thread.id === threadId ? { ...thread, comments: [...thread.comments, { ...comment, id: `comment-${Date.now()}`, createdAt: new Date().toISOString() }] } : thread));
+  const handleAddComment = (threadId: string, comment: Omit<ForumThread['comments'][number], 'id' | 'createdAt'>) => {
+    const saved = { ...comment, id: `comment-${Date.now()}`, createdAt: new Date().toISOString() };
+    savePublicAction('add-comment', { threadId, comment: saved }).then((state) => { if (state.forumThreads) setForumThreads(state.forumThreads); }).catch((error) => console.error('Could not save forum reply', error));
+  };
 
   // Handlers for Quotes
   const handleAddQuote = (newQuoteData: Omit<Quote, 'id'>) => {

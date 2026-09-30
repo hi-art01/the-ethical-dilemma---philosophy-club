@@ -23,14 +23,27 @@ confirming the email address they used when submitting.
 
 ### Persist essay data on Render
 
-The API stores essays in `server-data/essays.json` by default. Render's service
-filesystem is temporary, so essays can disappear after a deploy or restart
-unless the service has a persistent disk. In the Render dashboard, attach a
-persistent disk to the web service, set its mount path (for example
-`/var/data`), and add the environment variable `DATA_DIR=/var/data`. The API
-will then read and write `essays.json` on that disk. Existing essays on an
-ephemeral filesystem are not automatically copied to the disk; back them up
-before switching if the current instance still has them.
+Essays, club information, quotes, topics, polls, forums, and credits are stored
+in Supabase so the data is shared across visitors and survives Render deploys.
+Per-browser poll receipts and administrator sign-in state remain in that
+browser's local storage.
+
+1. In Supabase, open **SQL Editor**, run [`supabase/schema.sql`](supabase/schema.sql),
+   and apply the migration.
+2. In Render's web service **Environment**, set `SUPABASE_URL` to the project's
+   URL and `SUPABASE_SECRET_KEY` to a newly generated secret key. Set a strong
+   `ADMIN_PASSWORD` there as well. Keep the secret key out of `VITE_` variables,
+   source control, and browser code.
+3. Deploy the service. Sign in as an administrator once; that saves the
+   browser's existing club data to Supabase and initializes the shared state.
+   After that, admin changes persist centrally; public votes, forum threads,
+   replies, and essay submissions are saved through the server API.
+4. Export a backup from Supabase regularly. The club info/topics screen also
+   has a JSON export for those two data sets.
+
+If the previous Render instance still has essays in its temporary filesystem,
+export them before switching. This migration does not copy the old JSON file
+into Supabase automatically.
 
 GitHub Pages only hosts the static frontend, so it cannot persist essay
 submissions by itself. Set `VITE_API_BASE_URL` at build time to the public URL of
