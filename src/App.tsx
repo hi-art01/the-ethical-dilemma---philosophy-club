@@ -98,6 +98,7 @@ export function App() {
     } catch { /* Poll removal should still work if old vote data is malformed. */ }
   };
   const handleAddThread = (thread: Omit<ForumThread, 'id' | 'createdAt' | 'comments'>) => setForumThreads((current) => [{ ...thread, id: `thread-${Date.now()}`, createdAt: new Date().toISOString(), comments: [] }, ...current]);
+  const handleDeleteThread = (id: string) => setForumThreads(current => current.filter(thread => thread.id !== id));
   const handleAddComment = (threadId: string, comment: Omit<ForumThread['comments'][number], 'id' | 'createdAt'>) => setForumThreads((current) => current.map((thread) => thread.id === threadId ? { ...thread, comments: [...thread.comments, { ...comment, id: `comment-${Date.now()}`, createdAt: new Date().toISOString() }] } : thread));
 
   // Handlers for Quotes
@@ -199,8 +200,8 @@ export function App() {
         />
       )}
 
-      {currentView === 'polls' && <PollsView polls={polls} onVote={handleVote} isAdmin={isAdmin} onDeletePoll={handleDeletePoll} />}
-      {currentView === 'forums' && <ForumsView threads={forumThreads} onAddThread={handleAddThread} onAddComment={handleAddComment} />}
+      {currentView === 'polls' && <PollsView polls={polls} onVote={handleVote} isAdmin={isAdmin} onDeletePoll={handleDeletePoll} onAddPoll={handleAddPoll} />}
+      {currentView === 'forums' && <ForumsView threads={forumThreads} isAdmin={isAdmin} onAddThread={handleAddThread} onAddComment={handleAddComment} onDeleteThread={handleDeleteThread} />}
 
       {currentView === 'essays' && <EssaysView isAdmin={isAdmin} adminToken={adminToken} />}
 
@@ -247,7 +248,7 @@ export function App() {
           onResetDefaults={handleResetDefaults}
         />
       )}
-      {currentView === 'admin-community' && isAdmin && <AdminCommunity polls={polls} threads={forumThreads} credits={credits} onAddPoll={handleAddPoll} onDeletePoll={handleDeletePoll} onDeleteThread={id => setForumThreads(current => current.filter(thread => thread.id !== id))} onSaveCredits={setCredits} />}
+      {currentView === 'admin-community' && isAdmin && <AdminCommunity polls={polls} threads={forumThreads} credits={credits} onAddPoll={handleAddPoll} onDeletePoll={handleDeletePoll} onDeleteThread={handleDeleteThread} onSaveCredits={setCredits} />}
 
       {/* Shared Academic Footer */}
       <Footer

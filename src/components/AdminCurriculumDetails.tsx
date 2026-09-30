@@ -46,10 +46,10 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 md:mb-12">
         <div>
           <h1 className="font-serif text-3xl md:text-4xl font-bold text-[#041627] tracking-tight">
-            Curriculum & Details
+            Club Info & Topics
           </h1>
           <p className="text-[#5e5e5b] text-sm mt-1">
-            Manage symposium topics, club logistics, and general chapter metadata.
+            Edit the club information shown on the public site and manage discussion topics.
           </p>
         </div>
 
@@ -210,6 +210,11 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
             </div>
 
             <div className="space-y-1">
+              <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">Schedule Details</label>
+              <input type="text" value={formData.scheduleDetail} onChange={(e) => setFormData({ ...formData, scheduleDetail: e.target.value })} placeholder="e.g. After school, 3:30 PM - 5:00 PM" className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]" />
+            </div>
+
+            <div className="space-y-1">
               <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">
                 GroupMe / Discord URL
               </label>
@@ -256,6 +261,16 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
                 onChange={(e) => setFormData({ ...formData, facultyAdvisor: e.target.value })}
                 className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]"
               />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">Contact Email</label>
+              <input type="email" value={formData.contactEmail} onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })} className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]" />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">Club Hero Image URL</label>
+              <input type="url" value={formData.heroImageUrl} onChange={(e) => setFormData({ ...formData, heroImageUrl: e.target.value })} placeholder="https://…" className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]" />
             </div>
 
             {savedSuccess && (

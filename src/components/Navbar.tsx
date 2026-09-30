@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 currentView === 'admin-curriculum' ? 'bg-[#1a2b3c] text-white font-bold' : 'hover:text-white'
               }`}
             >
-              Curriculum & Details
+              Club Info & Topics
             </button>
             <button onClick={() => onNavigate('admin-community')} className={`px-2 py-0.5 rounded transition-colors ${currentView === 'admin-community' ? 'bg-[#1a2b3c] text-white font-bold' : 'hover:text-white'}`}>Community & Pages</button>
             <button
@@ -104,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     : 'text-[#5e5e5b] hover:text-[#041627]'
                 }`}
               >
-                Manage Topics
+                Edit Club Info & Topics
               </button>
               <button onClick={() => onNavigate('admin-community')} className={`text-sm tracking-wide transition-colors py-1 ${currentView === 'admin-community' ? 'text-[#041627] font-bold border-b-2 border-[#041627]' : 'text-[#5e5e5b] hover:text-[#041627]'}`}>Community & Pages</button>
             </>
@@ -294,7 +294,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 className="text-left text-sm text-[#041627] hover:underline"
               >
-                • Curriculum & Details Manager
+                • Edit Club Info & Topics
               </button>
               <button onClick={() => { onNavigate('admin-community'); setMobileMenuOpen(false); }} className="text-left text-sm text-[#041627] hover:underline">• Community & Pages</button>
               <button
