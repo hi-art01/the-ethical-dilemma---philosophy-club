@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClubInfo, Topic } from '../types';
 import { Plus, Edit2, Trash2, CheckCircle2, RotateCcw, Download, Upload } from 'lucide-react';
 
@@ -23,6 +23,10 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
 }) => {
   const [formData, setFormData] = useState<ClubInfo>(clubInfo);
   const [savedSuccess, setSavedSuccess] = useState(false);
+
+  useEffect(() => {
+    setFormData(clubInfo);
+  }, [clubInfo]);
 
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +53,7 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
             Club Info & Topics
           </h1>
           <p className="text-[#5e5e5b] text-sm mt-1">
-            Edit the club information shown on the public site and manage discussion topics.
+            Update the club name, room, meeting schedule, leaders, and contact details shown on the public site.
           </p>
         </div>
 
@@ -141,7 +145,7 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
         {/* Right: Edit Club Information Form matching Image 1 */}
         <section className="lg:col-span-5 bg-[#fdf9f0] border border-[#dedad1] p-6 sm:p-8 rounded-[2px] h-fit">
           <h2 className="font-serif text-xl md:text-2xl font-bold text-[#041627] mb-6">
-            Club Information
+            Club Settings
           </h2>
 
           <form onSubmit={handleInfoSubmit} className="space-y-4">
@@ -185,13 +189,13 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
 
             <div className="space-y-1">
               <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">
-                Classroom Location
+                Room Number / Meeting Location
               </label>
               <input
                 type="text"
                 value={formData.classroom}
                 onChange={(e) => setFormData({ ...formData, classroom: e.target.value })}
-                placeholder="e.g. Classroom S102"
+                placeholder="e.g. Room S102"
                 className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]"
               />
             </div>
@@ -272,6 +276,8 @@ export const AdminCurriculumDetails: React.FC<AdminCurriculumDetailsProps> = ({
               <label className="block text-[11px] font-semibold text-[#44474c] uppercase tracking-widest">Club Hero Image URL</label>
               <input type="url" value={formData.heroImageUrl} onChange={(e) => setFormData({ ...formData, heroImageUrl: e.target.value })} placeholder="https://…" className="w-full bg-[#fdf9f0] border border-[#c4c6cd] px-3 py-2 text-sm text-[#1c1c16] rounded-[2px] focus:outline-none focus:border-[#041627]" />
             </div>
+
+            <p className="text-xs text-[#5e5e5b]">This information appears on the public Club Info page and meeting details.</p>
 
             {savedSuccess && (
               <p className="text-xs text-emerald-700 font-medium bg-emerald-50 p-2.5 rounded border border-emerald-200 flex items-center gap-1.5">
