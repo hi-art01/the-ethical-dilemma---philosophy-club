@@ -59,8 +59,13 @@ END:VCALENDAR`;
       {/* Header Section matching Image 7 */}
       <header className="mb-8 md:mb-10 text-center md:text-left">
         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#041627] mb-4">
-          {clubInfo.schoolName ? `${clubInfo.schoolName.replace('High School', '')} Philosophy Club` : 'Brentwood Philosophy Club'}
+          {clubInfo.clubName || 'Ink & Ethics'}
         </h1>
+        {clubInfo.schoolName && (
+          <p className="text-sm sm:text-base font-semibold uppercase tracking-widest text-[#5e5e5b] mb-2">
+            {clubInfo.schoolName}
+          </p>
+        )}
         <p className="text-base sm:text-lg text-[#44474c] max-w-2xl mx-auto md:mx-0 leading-relaxed">
           {clubInfo.tagline}
         </p>
@@ -156,6 +161,26 @@ END:VCALENDAR`;
                 </div>
               </div>
             </div>
+
+            {clubInfo.contactEmail && (
+              <>
+                <div className="w-full h-px bg-[#ece8df]"></div>
+                <div className="flex items-center gap-4">
+                  <Mail className="w-5 h-5 text-[#5e5e5b] shrink-0" />
+                  <div>
+                    <h3 className="font-serif text-base md:text-lg font-semibold text-[#1c1c16]">
+                      Contact Email
+                    </h3>
+                    <a
+                      href={`mailto:${clubInfo.contactEmail}`}
+                      className="text-sm md:text-base text-[#041627] hover:underline font-medium"
+                    >
+                      {clubInfo.contactEmail}
+                    </a>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
